@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            {% load static %}
+            {% load bootstrap4 %}
+            {% bootstrap_javascript jquery='full' %}
+            <link rel="stylesheet" href="{% static 'css/app.css' %}">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+            <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,500,700" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
+            <title>Admin Products Table</title>
+        </head>
+        <body>
+            <nav class="navbar navbar-expand-md navbar-dark bg-danger py-3">
+                <a href="#" class="navbar-brand">
+                    <h3 class="mb-0">Records Admin Portal</h3>
+                </a>
+                <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="/add" class="nav-link">Add A Product</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a href="/products" class="nav-link">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/orders" class="nav-link">Orders</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div id="subheader" class="container-fluid">
+                <h2 class="text-center p-3 my-3">Products</h2>
+            </div>
+            <div class="container">
+                <table class="table table-secondary">
+                    <thead>
+                        <tr>
+                            <th scope="col">Picture</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Artist</th>
+                            <th scope="col">Condition</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Genre</th>
+                            <th scope="col">Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                        <tr>
+                            <th scope="row">{{ product.id }}</th>
+                            <th scope="row"><img src="{{ product.album_art.url }}" alt="product_image" id="product_table_images"></th>
+                            <th scope="row">{{ product.title }}</th>
+                            <th scope="row">{{ product.artist }}</th>
+                            <th scope="row">{{ product.condition }}</th>
+                            <th scope="row">{{ product.price }}</th>
+                            <th scope="row">{{ product.quantity }}</th>
+                            <th scope="row">{{ product.genre }}</th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </body>
+    </html>

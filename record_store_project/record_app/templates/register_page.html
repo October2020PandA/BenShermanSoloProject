@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            {% load static %}
+            {% load bootstrap4 %}
+            {% bootstrap_javascript jquery='full' %}
+            <link rel="stylesheet" href="{% static 'css/app.css' %}">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+            <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,500,700" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
+            <title>Register</title>
+        </head>
+        <body>
+            <div class="container p-3">
+                <h1 class="text-center mt-5">Standard Records <i class="fas fa-compact-disc mb-3"></i></h1>
+                <div id="register_form" class="container border rounded px-5 py-4 mt-3 mb-5 shadow" style="max-width: 400px;">
+                    <h3 class="text-center mb-4">Register</h3>
+                    {% if messages %}
+                        <ul class="messages">
+                            {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <form action="/register" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="first_name" placeholder="First Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="last_name" placeholder="Last Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="email" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="password" placeholder="Password">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password">
+                        </div>
+                        <button class="btn btn-primary btn-block btn-lg shadow-lg my-3">Register</button>
+                        <p class="text-center">Have an account? <a class="text-primary" href="/login">Sign in</a></p>
+                    </form>
+                </div>
+            </div>
+            <div id="footer" class="p-3 bg-dark">
+                <ul class="nav text-center justify-content-center flex-column flex-sm-row">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link text-white">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/records" class="nav-link text-white">RECORDS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/equipment" class="nav-link text-white">EQUIPMENT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/login_page" class="nav-link text-white">LOGIN</a>
+                    </li>
+                </ul>
+            </div>
+        </body>
+    </html>

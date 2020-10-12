@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            {% load static %}
+            {% load bootstrap4 %}
+            {% bootstrap_javascript jquery='full' %}
+            <link rel="stylesheet" href="{% static 'css/app.css' %}">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+            <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,500,700" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
+            <title>Shop Equipment</title>
+        </head>
+        <body>
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark py-3">
+                <a href="#" class="navbar-brand">
+                    <h3 class="mb-0">Standard Records</h3>
+                </a>
+                <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/records" class="nav-link">Records</a>
+                        </li>
+                        <li class="nav-item active">
+                            <a href="/equipment" class="nav-link">Equipment</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/login_page" class="nav-link">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/checkout" class="nav-link">Shopping Cart</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div id="subheader">
+                <div class="container-fluid">
+                    <h1 class="text-center p-3 my-3">Shop Equipment <i class="fas fa-headphones"></i></h1>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <nav class="navbar navbar-expand-md navbar-light bg-light d-md-none py-3">
+                    <a href="#" class="navbar-brand">
+                        <h3>Filter by Genre</h3>
+                    </a>
+                    <button class="navbar-toggler" data-toggle="collapse" data-target="#lowerNavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>       
+                    <div class="collapse navbar-collapse" id="lowerNavbar">
+                        <form class="form-inline my-3">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                      <i class="fas fa-search"></i>
+                                    </span>
+                                </div>
+                                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button">GO</button>
+                                </div>
+                            </div>
+                        </form>
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#">ALL</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#">JAZZ</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" href="#">BLUES</a>
+                              </li>
+                              <li class="nav-item">
+                                  <a class="nav-link" href="#">R&B</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" href="#">HIP-HOP</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" href="#">ROCK</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" href="#">COUNTRY</a>
+                                </li>
+                                <li class="nav-item">
+                                  <a class="nav-link" href="#">CLASSICAL</a>
+                                </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <div class="container-fluid">
+                <div class="row mt-4">
+                    <div id="left_nav" class="d-none d-md-inline-block col-md-3 col-xl-2">
+                        <div class="sticky-top p-1">
+                            <div class="card mt-3">
+                                <h5 class="card-header">
+                                    Filter by Genre
+                                </h5>
+                                <div class="card-body font-weight-bold">
+                                    <ul class="nav flex-column" id="left_nav_items">
+                                        <li class="nav-item d-flex align-items-center">
+                                          <a class="nav-link d-inline-block active" href="#">ALL</a>
+                                          <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
+                                        </li>
+                                        <li class="nav-item d-flex align-items-center">
+                                          <a class="nav-link d-inline-block" href="#">JAZZ</a>
+                                          <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
+                                        </li>
+                                        <li class="nav-item d-flex align-items-center">
+                                          <a class="nav-link d-inline-block" href="#">BLUES</a>
+                                          <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
+                                        </li>
+                                        <li class="nav-item d-flex align-items-center">
+                                            <a class="nav-link d-inline-block" href="#">R&B</a>
+                                            <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
+                                        </li>
+                                        <li class="nav-item d-flex align-items-center">
+                                            <a class="nav-link d-inline-block" href="#">HIP-HOP</a>
+                                            <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
+                                        </li>
+                                        <li class="nav-item d-flex align-items-center">
+                                            <a class="nav-link d-inline-block" href="#">ROCK</a>
+                                            <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
+                                        </li>
+                                        <li class="nav-item d-flex align-items-center">
+                                            <a class="nav-link d-inline-block" href="#">COUNTRY</a>
+                                            <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
+                                        </li>
+                                        <li class="nav-item d-flex align-items-center">
+                                            <a class="nav-link d-inline-block" href="#">CLASSICAL</a>
+                                            <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
+                                        </li>
+                                      </ul>
+                                </div>
+                                <div class="card-footer">
+                                    <form class="form-inline mt-3">
+                                        <div class="input-group">
+                                            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="main_body" class="col-md-9 col-xl-10">
+                        <div id="product_display" class="d-inline-block">
+                            <div class="row p-3 mt-1">
+                                <div class="col-sm-6 col-lg-4 mb-4">
+                                    <div id="shopping_page_cards" class="card">
+                                        <img src="{% static '/images/homepagepics/JohnColtranePic.jpg' %}" alt="vinyl_pic" class="card-img-top">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Title</h4>
+                                            <h6 class="card-subtitle mb-1 text-muted">Artist</h6>
+                                            <h5 class="card-text text-success">$20.00</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-4 mb-4">
+                                    <div id="shopping_page_cards" class="card">
+                                        <img src="{% static '/images/homepagepics/JohnColtranePic.jpg' %}" alt="vinyl_pic" class="card-img-top">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Title</h4>
+                                            <h6 class="card-subtitle mb-1 text-muted">Artist</h6>
+                                            <h5 class="card-text text-success">$20.00</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-4 mb-4">
+                                    <div id="shopping_page_cards" class="card">
+                                        <img src="{% static '/images/homepagepics/JohnColtranePic.jpg' %}" alt="vinyl_pic" class="card-img-top">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Title</h4>
+                                            <h6 class="card-subtitle mb-1 text-muted">Artist</h6>
+                                            <h5 class="card-text text-success">$20.00</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-4 mb-4">
+                                    <div id="shopping_page_cards" class="card">
+                                        <img src="{% static '/images/homepagepics/JohnColtranePic.jpg' %}" alt="vinyl_pic" class="card-img-top">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Title</h4>
+                                            <h6 class="card-subtitle mb-1 text-muted">Artist</h6>
+                                            <h5 class="card-text text-success">$20.00</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-4 mb-4">
+                                    <div id="shopping_page_cards" class="card">
+                                        <img src="{% static '/images/homepagepics/JohnColtranePic.jpg' %}" alt="vinyl_pic" class="card-img-top">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Title</h4>
+                                            <h6 class="card-subtitle mb-1 text-muted">Artist</h6>
+                                            <h5 class="card-text text-success">$20.00</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-4 mb-4">
+                                    <div id="shopping_page_cards" class="card">
+                                        <img src="{% static '/images/homepagepics/JohnColtranePic.jpg' %}" alt="vinyl_pic" class="card-img-top">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Title</h4>
+                                            <h6 class="card-subtitle mb-1 text-muted">Artist</h6>
+                                            <h5 class="card-text text-success">$20.00</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-4 mb-4">
+                                    <div id="shopping_page_cards" class="card">
+                                        <img src="{% static '/images/homepagepics/JohnColtranePic.jpg' %}" alt="vinyl_pic" class="card-img-top">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Title</h4>
+                                            <h6 class="card-subtitle mb-1 text-muted">Artist</h6>
+                                            <h5 class="card-text text-success">$20.00</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-4 mb-4">
+                                    <div id="shopping_page_cards" class="card">
+                                        <img src="{% static '/images/homepagepics/JohnColtranePic.jpg' %}" alt="vinyl_pic" class="card-img-top">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Title</h4>
+                                            <h6 class="card-subtitle mb-1 text-muted">Artist</h6>
+                                            <h5 class="card-text text-success">$20.00</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="pagination" class="mt-5">
+                <div class="container d-flex justify-content-center my-3">
+                    <a class="mr-5 text-primary" href=""><i class="fas fa-angle-double-left"></i> PREV</a>
+                    <div id="pagination_nums" class="mb-3">
+                        <a class="mx-2 text-primary" href="#">1</a><span>|</span>
+                        <a class="mx-2 text-primary" href="#">2</a><span>|</span>
+                        <a class="mx-2 text-primary" href="#">3</a><span>|</span>
+                        <a class="mx-2 text-primary" href="#">4</a><span>|</span>
+                        <a class="mx-2 text-primary" href="#">5</a><span>|</span>
+                        <a class="mx-2 text-primary" href="#">6</a>
+                    </div>
+                    <a class="ml-5 text-primary" href="">NEXT <i class="fas fa-angle-double-right"></i></a>
+                </div>
+            </div>
+            <div id="footer" class="p-3 bg-dark">
+                <ul class="nav text-center justify-content-center flex-column flex-sm-row">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link text-white">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/records" class="nav-link text-white">RECORDS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/login_page" class="nav-link text-white">LOGIN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/checkout" class="nav-link text-white">CHECKOUT</a>
+                    </li>
+                </ul>
+            </div>
+        </body>
+    </html>

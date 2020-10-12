@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            {% load static %}
+            {% load bootstrap4 %}
+            {% bootstrap_javascript jquery='full' %}
+            <link rel="stylesheet" href="{% static 'css/app.css' %}">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+            <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,500,700" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
+            <title>{{ product.title }}</title>
+        </head>
+        <body>
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark py-3">
+                <a href="#" class="navbar-brand">
+                    <h3 class="mb-0">Standard Records</h3>
+                </a>
+                <button class="navbar-toggler" data-toggle="collapse" data-target="#mainNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="/" class="nav-link">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/records" class="nav-link">Records</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/equipment" class="nav-link">Equipment</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/login_page" class="nav-link">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/checkout" class="nav-link">Shopping Cart</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="container my-5">
+                <div class="row" id="main_item_info">
+                    <div class="col-lg-5 pr-3">
+                        <img src="{{ product.album_art.url }}" class="img-thumbnail img-fluid" alt="Responsive image" id="main_item_image">
+                    </div>
+                    <div class="col-lg-7 mt-5 mt-lg-0">
+                        <h2 class="mb-2">{{ product.title }}</h2>
+                        <h4 class="text-muted mb-2">{{ product.artist }}</h4>
+                        <p class="lead text-success">${{ product.price }}</p>
+                        <p class="lead">{{ product.get_genre_display }}</p>
+                        <p>{{ product.description }}</p>
+                        <form action="/item/{{product.id}}/add_to_cart">
+                            <select name="quantity" class="form-control mb-3 text-center">
+                                <option value="QTY">Select Quantity</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                            <button class="btn btn-lg btn-primary btn-block mb-3">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+                <hr>
+                <h4 class="my-4">Similar Items</h4>
+                <div class="row" id="similar_items">
+                    <div class="col-md-3 col-6">
+                        <img src="{% static 'images/homepagepics/LedZeppelinIV.jpg' %}" class="img-fluid img-thumbnail mb-3" alt="Responsive image">
+                        <h6 class="text-center mb-3">Title</h6>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <img src="{% static 'images/homepagepics/LedZeppelinIV.jpg' %}" class="img-fluid img-thumbnail mb-3" alt="Responsive image">
+                        <h6 class="text-center mb-3">Title</h6>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <img src="{% static 'images/homepagepics/LedZeppelinIV.jpg' %}"class="img-fluid img-thumbnail mb-3" alt="Responsive image">
+                        <h6 class="text-center mb-3">Title</h6>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <img src="{% static 'images/homepagepics/LedZeppelinIV.jpg' %}"class="img-fluid img-thumbnail mb-3" alt="Responsive image">
+                        <h6 class="text-center mb-3">Title</h6>
+                    </div>
+                </div>
+            </div>
+            <div id="footer" class="p-3 bg-dark">
+                <ul class="nav text-center justify-content-center flex-column flex-sm-row">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link text-white">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/records" class="nav-link text-white">RECORDS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/equipment" class="nav-link text-white">EQUIPMENT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/login_page" class="nav-link text-white">LOGIN</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/checkout" class="nav-link text-white">CHECKOUT</a>
+                    </li>
+                </ul>
+            </div>
+        </body>
+    </html>

@@ -1,0 +1,157 @@
+// custom styles
+
+
+//all pages
+
+#img-fluid{
+    max-width: 100%;
+    height: auto;
+}
+
+#subheader{
+    h1{
+        border-bottom: 1px solid rgb(206, 198, 198);
+    }
+}
+
+//homepage
+
+body{
+    font-family: "Raleway", sans-serif;
+    background: linear-gradient(#edecec, white); 
+}
+.navbar{
+    .nav-link:hover{
+        transition: border 0.2s;
+        border-bottom: 1px solid white;
+    }
+}
+
+#showcase{
+    background: url("../images/homepagepics/MainImage.jpg") bottom center / cover no-repeat;
+    min-height: 750px;
+    position: relative;
+
+    #header{
+        z-index: 2;
+    }
+
+    #overlay{
+        background: rgba(0,0,0,0.5);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+    }
+}
+
+#home_page_cards{
+    .card-img-top{
+        height: 350px;
+    }
+}
+
+#quotes{
+    i {
+        opacity: 0.3;
+    }
+}
+
+.carousel-item{
+    height: 500px;
+}
+
+.bottom_body{
+    .container{
+        border-bottom: 1px solid rgb(206, 198, 198);
+    }
+}
+
+
+//shopping page
+
+#shopping_page_cards{
+    .card-img-top{
+        height: 300px;
+    }
+}
+
+#pagination{
+    line-height: 1;
+}
+
+#left_nav_items{
+    li{
+        border-bottom: 1px solid rgb(206, 198, 198);
+    }
+    li:last-child{
+        border-bottom: none;
+    }
+}
+
+#product_display{
+    a{
+        text-decoration: none;
+    }
+
+}
+//item page
+
+#main_item_image{
+    max-width: 100%;
+    height: auto;
+}
+
+//checkout page
+
+#checkout_image{
+    height: 175px;
+    width: 100%;
+}
+
+#validation_messages{
+    li:first-child{
+        list-style-type: none;
+    }
+}
+
+//products table
+
+#product_table_images{
+    height: 120px;
+    width: 130px;
+}
+
+//media queries
+
+@media(max-width: 768px){
+    .navbar{
+        .nav-link:hover{
+            border-bottom: none;
+        }
+    }
+}
+
+@media(max-width: 575px){
+    #footer{
+        .nav-item{
+            border-bottom: 1px dotted grey;
+        }
+        .nav-item:last-child{
+            border-bottom: none;
+        }
+    }
+    #shopping_page_card, #checkout_forms, #checkout_info{
+        margin: 0px 15px;
+    }
+    #checkout_container{
+        margin-bottom: 15px;
+    }
+    #main_item_info, #similar_items{
+        margin: 0 15px;
+    }
+}
+
+

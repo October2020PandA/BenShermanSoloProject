@@ -1,0 +1,23 @@
+Project:
+
+My plan is to make an E-Commerce site for a made-up record store.
+
+Core Functionality:
+1. Users will be able to shop for both vinyl and record-players/equipment.
+2. There will be a homepage with an overview of the site, navigation, and customer testimonials.
+3. There will be pages to shop for records and pages to shop for equipment, including the ability to narrow a search with genre categories, and pagination at the bottom. I will use AJAX so that this can be done without page refresh.
+4. Once a record or piece of equipment is selected, the customer will be taken to a page with information about the specific item they're interested in, including item description, option to choose quantity, and option to add to shopping cart.
+5. When users to try buy, if not logged in, they'll be redirected to a login/reg page with validations
+6. There will be a checkout page that displays all items currently in the user's cart, and allows them to edit. Here, they'll also be asked to input shipping and billing information. I will use Stripe API for payment.
+7. There will be a page that displays after checkout that allows them to access their purchase history
+8. The new items that I'll be incorporating are AJAX and Bootstrap. 
+
+Required Features:
+1. Users must be able to create an account/log in, search items by category, and add items to their cart.
+2. The site must be easy to navigate through search features, and users should be easily able to access their information - items in cart, previous purchases, and payment information if they choose to save it. 
+
+
+Additional Functionality - If I get to it, I'd love to add:
+1. On individual item pages, have an "also by this artist" or "similar albums" section
+2. Have another "similar albums" section displayed after user checks out
+3. Have a couple of admin pages where admins can log in, update inventory and view sales history. 

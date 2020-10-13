@@ -222,7 +222,7 @@ class Payment(models.Model):
 
 class Order(models.Model):
     quantity = models.CharField(max_length=2, default=1)
-    ordered_by = models.ForeignKey(User, related_name="customer", on_delete=models.CASCADE)
+    ordered_by = models.ForeignKey(User, related_name="shopping_cart", on_delete=models.CASCADE)
     ship_to = models.ForeignKey(ShippingAddress, related_name="location_of", on_delete=models.CASCADE)
     contents = models.ForeignKey(Product, related_name="shopping_cart", on_delete=models.CASCADE)
     charged_to = models.ForeignKey(Payment, related_name="charged_by", on_delete=models.CASCADE)

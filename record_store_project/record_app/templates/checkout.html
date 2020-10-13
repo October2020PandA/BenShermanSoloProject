@@ -62,7 +62,7 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-8 col-7">
-                                                {% for items in current_order.all %}
+                                                {% for items in current_user.shopping_cart.all %}
                                                     <h5 class="card-title">{{ items.contents.title }}</h5>
                                                     <p class="card-subititle mt-2 mb-3 text-muted">{{ items.contents.artist }}</p>
                                                     <p class="card-text text-success">${{ items.contents.price }}</p>
@@ -73,7 +73,7 @@
                                                 {% endfor %}
                                             </div>
                                             <div class="col-md-4 col-5">
-                                                {% for items in current_order.all %}
+                                                {% for items in current_user.shopping_cart.all %}
                                                     <img src="{{ items.contents.album_art.url }}" alt="vinyl_pic" class="img-thumbnail mb-5" id="checkout_image">
                                                 {% endfor %}
                                             </div>

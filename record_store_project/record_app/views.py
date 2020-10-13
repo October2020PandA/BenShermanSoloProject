@@ -33,7 +33,7 @@ def login(request):
             return redirect ('/login_page')
         this_user = User.objects.get(email=request.POST['email'])
         request.session['user_id'] = this_user.id
-        return redirect('/checkout')
+        return redirect('/')
     return redirect('/login_page')
 
 def register_page(request):
@@ -69,11 +69,12 @@ def products(request):
 def add_to_cart(request, product_id):
     if 'user_id' not in request.session:
         return redirect('/login')
-    elif request.method == "POST":
-        this_order = Order.objects.create(
-            quantity  = request.POST['quantity'],
+    if request.method == "POST":
+        current_order = Order.objects.create(
+            quantity  = request.POST['quantity']
         )
-    return redirect(f'/checkout')
+        current_order.contents.add(id=product_id)
+    return redirect('/checkout')
 
 def checkout(request):
     if 'user_id' not in request.session:
@@ -84,22 +85,23 @@ def checkout(request):
             for key, value in errors.items():
                 messages.error(request, value)
             return redirect ('/checkout')
-    if request.method == "POST":
         errors = BillingAddress.objects.billing_address_validator(request.POST)
         if len(errors) > 0:
             for key, value in errors.items():
                 messages.error(request, value)
             return redirect ('/checkout')
-    if request.method == "POST":
         errors = Payment.objects.payment_validator(request.POST)
         if len(errors) > 0:
             for key, value in errors.items():
                 messages.error(request, value)
             return redirect ('/checkout')
-    else:
-        context = {
-            'current_order': Order.objects.all(),
-        }
+        this_order = Order.objects.create(
+            quantity  = request.POST['quantity']
+        )
+    context = {
+        'order_list': Order.objects.all(),
+        'current_user': User.objects.get(id=request.session['user_id'])
+    }
     return render (request, 'checkout.html', context)
 
 def confirmation(request):

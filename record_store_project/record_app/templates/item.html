@@ -6,7 +6,7 @@
             {% load static %}
             {% load bootstrap4 %}
             {% bootstrap_javascript jquery='full' %}
-            <link rel="stylesheet" href="{% static 'css/app.css' %}">
+            <link rel="stylesheet" href="{% static 'css/record_app.css' %}">
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
             <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,500,700" rel="stylesheet">
             <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
@@ -51,7 +51,8 @@
                         <p class="lead text-success">${{ product.price }}</p>
                         <p class="lead">{{ product.get_genre_display }}</p>
                         <p>{{ product.description }}</p>
-                        <form action="/item/{{product.id}}/add_to_cart">
+                        <form action="/item/{{product.id}}/add_to_cart" method="POST">
+                            {% csrf_token %}
                             <select name="quantity" class="form-control mb-3 text-center">
                                 <option value="QTY">Select Quantity</option>
                                 <option value="1">1</option>

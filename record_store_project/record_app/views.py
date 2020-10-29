@@ -11,7 +11,7 @@ def equipment(request):
 
 def records(request):
     context = {
-        'product_list' : Product.objects.order_by('title'),
+        'product_list' : Product.objects.order_by('artist'),
     }
     return render (request, 'records.html', context)
 
@@ -70,11 +70,17 @@ def add_to_cart(request, product_id):
     if 'user_id' not in request.session:
         return redirect('/login')
     if request.method == "POST":
-        current_order = Order.objects.create(
-            quantity  = request.POST['quantity']
+        current_user = User.objects.get(id=request.session['user_id'])
+        current_product = Product.objects.get(id=product_id)
+        current_order = Order(
+            quantity  = request.POST['quantity'],
+            ordered_by = current_user,
+            ship_to = None,
+            charged_to = None
         )
-        current_order.contents.add(id=product_id)
-    return redirect('/checkout')
+        current_order.save()
+        current_order.contents.add(current_product)
+        return redirect('/checkout')
 
 def checkout(request):
     if 'user_id' not in request.session:
@@ -99,8 +105,8 @@ def checkout(request):
             quantity  = request.POST['quantity']
         )
     context = {
-        'order_list': Order.objects.all(),
-        'current_user': User.objects.get(id=request.session['user_id'])
+        'product_list': Product.objects.all(),
+        'current_user': User.objects.get(id=request.session['user_id']),
     }
     return render (request, 'checkout.html', context)
 

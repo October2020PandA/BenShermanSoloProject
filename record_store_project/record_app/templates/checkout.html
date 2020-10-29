@@ -6,7 +6,7 @@
             {% load static %}
             {% load bootstrap4 %}
             {% bootstrap_javascript jquery='full' %}
-            <link rel="stylesheet" href="{% static 'css/app.css' %}">
+            <link rel="stylesheet" href="{% static 'css/record_app.css' %}">
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
             <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,500,700" rel="stylesheet">
             <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
@@ -62,11 +62,11 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-8 col-7">
-                                                {% for items in current_user.shopping_cart.all %}
-                                                    <h5 class="card-title">{{ items.contents.title }}</h5>
-                                                    <p class="card-subititle mt-2 mb-3 text-muted">{{ items.contents.artist }}</p>
-                                                    <p class="card-text text-success">${{ items.contents.price }}</p>
-                                                    <p class="card-text">QTY: {{ items.quantity }} </p>
+                                                {% for item in current_user.shopping_cart.all %}
+                                                    <h5 class="card-title">{{ item.title }}</h5>
+                                                    <p class="card-subititle mt-2 mb-3 text-muted">{{ item.contents.artist }}</p>
+                                                    <p class="card-text text-success">${{ item.contents.price }}</p>
+                                                    <p class="card-text">QTY: {{ item.quantity }} </p>
                                                     <a href="#" class="btn btn-sm btn-primary">Remove</a>
                                                     <a href="#" class="btn btn-sm btn-primary">Edit</a>
                                                     <hr>
@@ -74,7 +74,7 @@
                                             </div>
                                             <div class="col-md-4 col-5">
                                                 {% for items in current_user.shopping_cart.all %}
-                                                    <img src="{{ items.contents.album_art.url }}" alt="vinyl_pic" class="img-thumbnail mb-5" id="checkout_image">
+                                                    <img src="{{ item.contents.album_art.url }}" alt="vinyl_pic" class="img-thumbnail mb-5" id="checkout_image">
                                                 {% endfor %}
                                             </div>
                                         </div>

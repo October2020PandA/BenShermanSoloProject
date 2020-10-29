@@ -6,7 +6,7 @@
             {% load static %}
             {% load bootstrap4 %}
             {% bootstrap_javascript jquery='full' %}
-            <link rel="stylesheet" href="{% static 'css/app.css' %}">
+            <link rel="stylesheet" href="{% static 'css/record_app.css' %}">
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
             <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,500,700" rel="stylesheet">
             <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
@@ -156,7 +156,7 @@
                                 {% for product in product_list %}
                                 <div class="col-sm-6 col-lg-4 mb-4">
                                     <a href="item/{{ product.id }}">
-                                        <div id="shopping_page_cards" class="card">
+                                        <div id="shopping_page_cards" class="card h-100">
                                             <img src="{{ product.album_art.url }}" alt="vinyl_pic" class="card-img-top p-3">
                                             <div class="card-body">
                                                 <h4 class="card-title">{{ product.title }}</h4>

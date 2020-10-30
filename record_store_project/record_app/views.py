@@ -105,7 +105,7 @@ def checkout(request):
             quantity  = request.POST['quantity']
         )
     context = {
-        'product_list': Product.objects.all(),
+        'order_list': Order.objects.all(),
         'current_user': User.objects.get(id=request.session['user_id']),
     }
     return render (request, 'checkout.html', context)
@@ -118,9 +118,18 @@ def confirmation(request):
     }
     return render (request, 'confirmation.html', context)
 
+def delete(request, order_id):
+    this_order = Order.objects.get(id=order_id)
+    this_order.delete()
+    return redirect('/checkout')
+
+    
 def orders(request):
     return render (request, 'orders_table.html')
 
 def logout(request):
     request.session.clear()
-    return redirect('/')
+    return redirect('/logout_page')
+
+def logout_page(request):
+    return render(request, 'logout_page.html')

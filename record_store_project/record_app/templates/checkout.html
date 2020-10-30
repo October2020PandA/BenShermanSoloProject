@@ -61,20 +61,20 @@
                                     <h5 class="card-header d-inline-block pb-2">Shopping Cart</h5>
                                     <div class="card-body">
                                         <div class="row">
-                                            <div class="col-md-8 col-7">
+                                            <div id="item_info" class="col-md-8 col-7">
                                                 {% for item in current_user.shopping_cart.all %}
-                                                    <h5 class="card-title">{{ item.title }}</h5>
-                                                    <p class="card-subititle mt-2 mb-3 text-muted">{{ item.contents.artist }}</p>
-                                                    <p class="card-text text-success">${{ item.contents.price }}</p>
-                                                    <p class="card-text">QTY: {{ item.quantity }} </p>
-                                                    <a href="#" class="btn btn-sm btn-primary">Remove</a>
+                                                    <h5 class="card-title">{{ item.contents.first.title }}</h5>
+                                                    <p class="card-subititle mt-2 mb-3 text-muted">{{ item.contents.first.artist }}</p>
+                                                    <p class="card-text text-success">${{ item.contents.first.price }}</p>
+                                                    <p class="card-text">QTY: {{ item.quantity }}</p>
+                                                    <a href="checkout/{{ item.id }}/delete" class="btn btn-sm btn-primary">Remove</a>
                                                     <a href="#" class="btn btn-sm btn-primary">Edit</a>
                                                     <hr>
                                                 {% endfor %}
                                             </div>
                                             <div class="col-md-4 col-5">
-                                                {% for items in current_user.shopping_cart.all %}
-                                                    <img src="{{ item.contents.album_art.url }}" alt="vinyl_pic" class="img-thumbnail mb-5" id="checkout_image">
+                                                {% for item in current_user.shopping_cart.all %}
+                                                    <img src="{{ item.contents.first.album_art.url }}" alt="vinyl_pic" class="img-thumbnail mb-5" id="checkout_image">
                                                 {% endfor %}
                                             </div>
                                         </div>

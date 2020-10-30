@@ -7,7 +7,6 @@ from django.conf.urls.static import static
 
 urlpatterns =[
     path('', views.index),
-    path('checkout', views.checkout),
     path('equipment', views.equipment),
     path('records', views.records),
     path('item/<int:product_id>', views.item),
@@ -18,7 +17,10 @@ urlpatterns =[
     path('register', views.register),
     path('confirmation', views.confirmation),
     path('add', views.add_product),
+    path('checkout', views.checkout),
     path('orders', views.orders),
     path('products', views.products),
+    path('checkout/<int:order_id>/delete', views.delete),
     path('logout', views.logout),
+    path('logout_page', views.logout_page),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

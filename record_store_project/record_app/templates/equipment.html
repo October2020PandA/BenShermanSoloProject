@@ -32,11 +32,17 @@
                             <a href="/equipment" class="nav-link">Equipment</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/login_page" class="nav-link">Login</a>
-                        </li>
-                        <li class="nav-item">
                             <a href="/checkout" class="nav-link">Shopping Cart</a>
                         </li>
+                        {% if request.session.user_id %}
+                        <li class="nav-item">
+                            <a href="/logout" class="nav-link">Logout</a>
+                        </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a href="/login_page" class="nav-link">Login</a>
+                        </li>
+                        {% endif %}
                     </ul>
                 </div>
             </nav>
@@ -261,11 +267,20 @@
                         <a href="/records" class="nav-link text-white">RECORDS</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/login_page" class="nav-link text-white">LOGIN</a>
+                        <a href="/records" class="nav-link text-white">EQUIPMENT</a>
                     </li>
                     <li class="nav-item">
                         <a href="/checkout" class="nav-link text-white">CHECKOUT</a>
                     </li>
+                    {% if request.session.user_id %}
+                    <li class="nav-item">
+                        <a href="/logout" class="nav-link text-white">LOGOUT</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="/login_page" class="nav-link text-white">LOGIN</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </body>

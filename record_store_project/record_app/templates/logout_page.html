@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            {% load static %}
+            {% load bootstrap4 %}
+            {% bootstrap_javascript jquery='full' %}
+            <link rel="stylesheet" href="{% static 'css/record_app.css' %}">
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+            <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,500,700" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
+            <title>Sign in</title>
+        </head>
+        <body>
+            <div class="container text-center">
+                <h1 class="mt-5">Standard Records <i class="fas fa-compact-disc mb-3"></i></h1>
+                <div class="container border rounded p-5 my-5 shadow" style="max-width: 550px;">
+                    <h1 class="mb-4 display-4">You have been logged out.</h1>
+                    <h5 class="mb-5">Thank you for shopping with us. We hope to see you again soon!</h5>
+                    <a href="/" class="btn btn-lg btn-primary shadow mb-5" role="button">Back to Home</a>
+                    <p>Still shopping? <a class="text-primary" href="/login_page">Log In</a></p>
+                </div>
+            </div>
+            <div id="footer" class="p-3 bg-dark">
+                <ul class="nav text-center justify-content-center flex-column flex-sm-row">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link text-white">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/records" class="nav-link text-white">RECORDS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/equipment" class="nav-link text-white">EQUIPMENT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/login_page" class="nav-link text-white">LOGIN</a>
+                    </li>
+                </ul>
+            </div>
+        </body>
+    </html>

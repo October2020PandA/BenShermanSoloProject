@@ -32,7 +32,7 @@
                             <a href="/equipment" class="nav-link">Equipment</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/checkout" class="nav-link">Shopping Cart</a>
+                            <a href="/checkout" class="nav-link">Shopping Cart {% if request.session.user_id %} ({{ item_tally }}) {% endif %}</a>
                         </li>
                         {% if request.session.user_id %}
                         <li class="nav-item">
@@ -60,30 +60,30 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>       
                     <div class="collapse navbar-collapse" id="lowerNavbar">
-                        <ul class="navbar-nav ml-auto">
+                        <ul id="genre_categories" class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link active" href="#">ALL</a>
+                                <a data-genre="all" class="nav-link" href="#">ALL</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">BLUES</a>
+                                <a data-genre="BL" class="nav-link" href="#">BLUES</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">CLASSICAL</a>
+                                <a data-genre="CL" class="nav-link" href="#">CLASSICAL</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">COUNTRY</a>
+                                <a data-genre="CO" class="nav-link" href="#">COUNTRY</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">HIP-HOP</a>
+                                <a data-genre="HH" class="nav-link" href="#">HIP-HOP</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">JAZZ</a>
+                                <a data-genre="JZ" class="nav-link" href="#">JAZZ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">ROCK</a>
+                                <a data-genre="RK" class="nav-link" href="#">ROCK</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">R&B/SOUL</a>
+                                <a data-genre="RB" class="nav-link" href="#">R&B/SOUL</a>
                             </li>
                         </ul>
                         <form class="form-inline my-3">
@@ -93,7 +93,7 @@
                                       <i class="fas fa-search"></i>
                                     </span>
                                 </div>
-                                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                <input class="form-control" type="search" id="lower_nav_search" placeholder="Search" aria-label="Search">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="button">GO</button>
                                 </div>
@@ -113,35 +113,35 @@
                                 <div class="card-body font-weight-bold">
                                     <ul class="nav flex-column" id="left_nav_items">
                                         <li class="nav-item d-flex align-items-center">
-                                          <a class="nav-link d-inline-block active" href="#">ALL</a>
+                                          <a data-genre="all" class="nav-link d-inline-block active" href="#">ALL</a>
                                           <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
                                         </li>
                                         <li class="nav-item d-flex align-items-center">
-                                          <a class="nav-link d-inline-block" href="#">BLUES</a>
+                                          <a data-genre="BL" class="nav-link d-inline-block" href="#">BLUES</a>
                                           <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
                                         </li>
                                         <li class="nav-item d-flex align-items-center">
-                                          <a class="nav-link d-inline-block" href="#">CLASSICAL</a>
+                                          <a data-genre="CL" class="nav-link d-inline-block" href="#">CLASSICAL</a>
                                           <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
                                         </li>
                                         <li class="nav-item d-flex align-items-center">
-                                            <a class="nav-link d-inline-block" href="#">COUNTRY</a>
+                                            <a data-genre="CO" class="nav-link d-inline-block" href="#">COUNTRY</a>
                                             <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
                                         </li>
                                         <li class="nav-item d-flex align-items-center">
-                                            <a class="nav-link d-inline-block" href="#">HIP-HOP</a>
+                                            <a data-genre="HH" class="nav-link d-inline-block" href="#">HIP-HOP</a>
                                             <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
                                         </li>
                                         <li class="nav-item d-flex align-items-center">
-                                            <a class="nav-link d-inline-block" href="#">JAZZ</a>
+                                            <a data-genre="JZ" class="nav-link d-inline-block" href="#">JAZZ</a>
                                             <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
                                         </li>
                                         <li class="nav-item d-flex align-items-center">
-                                            <a class="nav-link d-inline-block" href="#">ROCK</a>
+                                            <a data-genre="RK" class="nav-link d-inline-block" href="#">ROCK</a>
                                             <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
                                         </li>
                                         <li class="nav-item d-flex align-items-center">
-                                            <a class="nav-link d-inline-block" href="#">R&B/SOUL</a>
+                                            <a data-genre="RB" class="nav-link d-inline-block" href="#">R&B/SOUL</a>
                                             <i class="fas fa-arrow-circle-right ml-auto text-primary"></i>
                                         </li>
                                       </ul>
@@ -149,7 +149,7 @@
                                 <div class="card-footer">
                                     <form class="form-inline mt-3">
                                         <div class="input-group">
-                                            <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                            <input class="form-control" type="search" id="left_nav_search" placeholder="Search" aria-label="Search">
                                         </div>
                                     </form>
                                 </div>
@@ -158,9 +158,9 @@
                     </div>
                     <div id="main_body" class="col-md-9 col-xl-10">
                         <div id="product_display" class="d-inline-block">
-                            <div class="row p-3 mt-1">
+                            <div id="card_holder" class="row p-3 mt-1">
                                 {% for product in product_list %}
-                                <div class="col-sm-6 col-lg-4 mb-4">
+                                <div data-genre="{{ product.genre }}" class="col-sm-6 col-lg-4 mb-4" id="items">
                                     <a href="item/{{ product.id }}">
                                         <div id="shopping_page_cards" class="card h-100">
                                             <img src="{{ product.album_art.url }}" alt="vinyl_pic" class="card-img-top p-3">
@@ -217,5 +217,39 @@
                     {% endif %}
                 </ul>
             </div>
+            <script>
+                $(document).ready(function(){
+                    //enabling filter by genre
+
+                    //left nav
+                    $('#left_nav_items li a').click(function(){
+
+                        var genre = $(this).attr('data-genre');
+                        
+                        if(genre === 'all'){
+                            $("#card_holder").children('div').show();
+                        }
+                        else{
+                            $('#card_holder').children('div:not([data-genre=' + genre + '])').hide();
+                            $('#card_holder').children('div[data-genre=' + genre + ']').show();
+                        }
+                        return false;
+                    });
+                    //lower nav
+                    $('#lowerNavbar li a').click(function(){
+
+                        var genre = $(this).attr('data-genre');
+
+                        if(genre === 'all'){
+                            $("#card_holder").children('div').show();
+                        }
+                        else{
+                            $('#card_holder').children('div:not([data-genre=' + genre + '])').hide();
+                            $('#card_holder').children('div[data-genre=' + genre + ']').show();
+                        }
+                        return false;
+                    });
+                });
+            </script>
         </body>
     </html>

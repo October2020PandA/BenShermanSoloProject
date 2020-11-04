@@ -219,7 +219,6 @@ class Payment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = PaymentManager()
 
-
 class Order(models.Model):
     quantity = models.CharField(max_length=2, default=1)
     is_complete = models.BooleanField(default=False)

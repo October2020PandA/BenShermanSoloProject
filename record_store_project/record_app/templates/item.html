@@ -32,7 +32,7 @@
                             <a href="/equipment" class="nav-link">Equipment</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/checkout" class="nav-link">Shopping Cart</a>
+                            <a href="/checkout" class="nav-link">Shopping Cart {% if request.session.user_id %} ({{ item_tally }}) {% endif %}</a>
                         </li>
                         {% if request.session.user_id %}
                         <li class="nav-item">
@@ -72,29 +72,21 @@
                                 <option value="9">9</option>
                                 <option value="10">10</option>
                             </select>
-                            <button class="btn btn-lg btn-primary btn-block mb-3">Add to Cart</button>
+                            <button class="btn btn-lg btn-primary btn-block mb-3" data-toggle="modal" data-target="orderModal">Add to Cart</button>
                         </form>
                     </div>
                 </div>
                 <hr>
                 <h4 class="my-4">Similar Items</h4>
                 <div class="row" id="similar_items">
+                    {% for item in similar_items %}
                     <div class="col-md-3 col-6">
-                        <img src="{% static 'images/homepagepics/LedZeppelinIV.jpg' %}" class="img-fluid img-thumbnail mb-3" alt="Responsive image">
-                        <h6 class="text-center mb-3">Title</h6>
+                        <a href="{{ item.id }}" class="text-dark">
+                            <img src="{{ item.album_art.url }}" id="similar_items_images" class="img-fluid img-thumbnail mb-3" alt="Responsive image">
+                            <h6 class="text-center mb-3">{{ item.title }}</h6>
+                        </a>
                     </div>
-                    <div class="col-md-3 col-6">
-                        <img src="{% static 'images/homepagepics/LedZeppelinIV.jpg' %}" class="img-fluid img-thumbnail mb-3" alt="Responsive image">
-                        <h6 class="text-center mb-3">Title</h6>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <img src="{% static 'images/homepagepics/LedZeppelinIV.jpg' %}"class="img-fluid img-thumbnail mb-3" alt="Responsive image">
-                        <h6 class="text-center mb-3">Title</h6>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <img src="{% static 'images/homepagepics/LedZeppelinIV.jpg' %}"class="img-fluid img-thumbnail mb-3" alt="Responsive image">
-                        <h6 class="text-center mb-3">Title</h6>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
             <div id="footer" class="p-3 bg-dark">
@@ -121,6 +113,25 @@
                     </li>
                     {% endif %}
                 </ul>
+            </div>
+            <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModallLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="orderModalLabel">Success</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+                    <div class="modal-body">
+                        <h2>This item has successfully been added to your shopping cart!</h2>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Back to Shopping</button>
+                    <button type="button" class="btn btn-primary">Continue to Checkout</button>
+                    </div>
+                </div>
+                </div>
             </div>
         </body>
     </html>

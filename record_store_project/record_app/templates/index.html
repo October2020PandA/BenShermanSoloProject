@@ -32,7 +32,7 @@
                             <a href="/equipment" class="nav-link">Equipment</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/checkout" class="nav-link">Shopping Cart</a>
+                            <a href="/checkout" class="nav-link">Shopping Cart {% if request.session.user_id %} ({{ item_tally }}) {% endif %}</a>
                         </li>
                         {% if request.session.user_id %}
                         <li class="nav-item">

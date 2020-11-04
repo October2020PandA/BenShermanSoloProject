@@ -32,7 +32,7 @@
                             <a href="/equipment" class="nav-link">Equipment</a>
                         </li>
                         <li class="nav-item active">
-                            <a href="/checkout" class="nav-link">Shopping Cart</a>
+                            <a href="/checkout" class="nav-link">Shopping Cart ({{ item_tally }})</a>
                         </li>
                         <li class="nav-item">
                             <a href="/logout" class="nav-link">Logout</a>
@@ -61,22 +61,41 @@
                                     <h5 class="card-header d-inline-block pb-2">Shopping Cart</h5>
                                     <div class="card-body">
                                         <div class="row">
+                                            {% for item in current_user.shopping_cart.all %}
                                             <div id="item_info" class="col-md-8 col-7">
-                                                {% for item in current_user.shopping_cart.all %}
                                                     <h5 class="card-title">{{ item.contents.first.title }}</h5>
                                                     <p class="card-subititle mt-2 mb-3 text-muted">{{ item.contents.first.artist }}</p>
                                                     <p class="card-text text-success">${{ item.contents.first.price }}</p>
-                                                    <p class="card-text">QTY: {{ item.quantity }}</p>
+                                                    <div class="row">
+                                                        <div class="col-md-3 col-sm-5 col-6">
+                                                            <select name="quantity" class="form-control mb-3 text-center">
+                                                                <option value="QTY">{{ item.quantity }}</option>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                                <option value="5">5</option>
+                                                                <option value="6">6</option>
+                                                                <option value="7">7</option>
+                                                                <option value="8">8</option>
+                                                                <option value="9">9</option>
+                                                                <option value="10">10</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                     <a href="checkout/{{ item.id }}/delete" class="btn btn-sm btn-primary">Remove</a>
-                                                    <a href="#" class="btn btn-sm btn-primary">Edit</a>
-                                                    <hr>
-                                                {% endfor %}
+                                                    <a href="#" class="btn btn-sm btn-primary">Save for Later</a>
+                                                    <hr id="item_separator">
                                             </div>
                                             <div class="col-md-4 col-5">
-                                                {% for item in current_user.shopping_cart.all %}
-                                                    <img src="{{ item.contents.first.album_art.url }}" alt="vinyl_pic" class="img-thumbnail mb-5" id="checkout_image">
-                                                {% endfor %}
+                                                <img src="{{ item.contents.first.album_art.url }}" alt="vinyl_pic" class="img-thumbnail mt-2 mb-5" id="checkout_image">
                                             </div>
+                                            {% empty %}
+                                            <div class="container p-5">
+                                                <h2 class="text-center mb-4">Your shopping cart is currently empty!</h2>
+                                                <a href="/records" class="btn btn-primary d-block mt-3">Return to Shopping</a>
+                                            </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +128,7 @@
                                 </div>
                                 <div class="card-footer">
                                     <a href="#checkout_info" class="btn btn-primary d-block">Contine to Checkout</a>
-                                    <a href="/" class="btn btn-primary d-block mt-3">Return to Shopping</a>
+                                    <a href="/records" class="btn btn-primary d-block mt-3">Return to Shopping</a>
                                 </div>
                             </div>
                         </div>
@@ -277,7 +296,7 @@
                                 </div>
                                 <div class="card-footer">
                                     <a href="#checkout_info" class="btn btn-primary d-block">Contine to Checkout</a>
-                                    <a href="/" class="btn btn-primary d-block mt-3">Return to Shopping</a>
+                                    <a href="/records" class="btn btn-primary d-block mt-3">Return to Shopping</a>
                                 </div>
                             </div>
                         </div> 

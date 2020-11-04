@@ -1,26 +1,62 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import *
+import random
 import bcrypt
 
 def index(request):
-    return render (request, 'index.html')
+    if 'user_id' in request.session:
+        this_user = User.objects.get(id=request.session['user_id'])
+        item_tally = this_user.shopping_cart.count()
 
+        context = {
+            'item_tally' : item_tally,
+        }
+        return render (request, 'index.html', context)
+    else:
+        return render (request, 'index.html')
 def equipment(request):
     return render (request, 'equipment.html')
 
 def records(request):
-    context = {
-        'product_list' : Product.objects.order_by('artist'),
-    }
-    return render (request, 'records.html', context)
+    if 'user_id' in request.session:
+        this_user = User.objects.get(id=request.session['user_id'])
+        item_tally = this_user.shopping_cart.count()
+
+        context = {
+            'item_tally' : item_tally,
+            'product_list' : Product.objects.order_by('artist'),
+        }
+        return render (request, 'records.html', context)
+    else:
+        context = {
+            'product_list' : Product.objects.order_by('artist'),
+        }
+        return render (request, 'records.html', context)
 
 def item(request, product_id):
-    context = {
-        'product': Product.objects.get(id=product_id)
-    }
-    return render (request, 'item.html', context)
+    if 'user_id' in request.session:
+        this_product = Product.objects.get(id=product_id)
+        same_genre_list = Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
+        this_user = User.objects.get(id=request.session['user_id'])
+        item_tally = this_user.shopping_cart.count()
+        
+        context = {
+            'item_tally' : item_tally,
+            'product': Product.objects.get(id=product_id),
+            'similar_items': Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
+        }
+        return render (request, 'item.html', context)
+    else:
+        this_product = Product.objects.get(id=product_id)
+        same_genre_list = Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
 
+        context = {
+            'product': Product.objects.get(id=product_id),
+            'similar_items': Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
+        }
+        return render (request, 'item.html', context)
+        
 def login_page(request):
     return render(request, 'login_page.html')
 
@@ -80,11 +116,19 @@ def add_to_cart(request, product_id):
         )
         current_order.save()
         current_order.contents.add(current_product)
-        return redirect('/checkout')
+        return redirect(f'/item/{product_id}')
 
 def checkout(request):
     if 'user_id' not in request.session:
         return redirect ('/login_page')
+    this_user = User.objects.get(id=request.session['user_id'])
+    item_tally = this_user.shopping_cart.count()
+
+    context = {
+        'item_tally': item_tally,
+        'order_list': Order.objects.all(),
+        'current_user': User.objects.get(id=request.session['user_id']),
+    }
     if request.method == "POST":
         errors = ShippingAddress.objects.shipping_address_validator(request.POST)
         if len(errors) > 0:
@@ -104,10 +148,6 @@ def checkout(request):
         this_order = Order.objects.create(
             quantity  = request.POST['quantity']
         )
-    context = {
-        'order_list': Order.objects.all(),
-        'current_user': User.objects.get(id=request.session['user_id']),
-    }
     return render (request, 'checkout.html', context)
 
 def confirmation(request):

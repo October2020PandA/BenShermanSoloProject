@@ -18,6 +18,6 @@ https://github.com/Redbeard29
 
 ## Demo
 ### Homepage
-![homepage gif](/Demo/homepage.gif)
+![home gif](/Demo/home.gif)
 ### Shopping Pages
 ![shopping gif](/Demo/shopping.gif)

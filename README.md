@@ -18,3 +18,4 @@ https://github.com/Redbeard29
 
 ## Demo
 ![homepage gif](/Demo/homepage.gif)
+![shopping gif](/Demo/shopping.gif)

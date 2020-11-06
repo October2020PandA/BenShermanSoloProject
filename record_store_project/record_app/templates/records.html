@@ -233,7 +233,6 @@
                             $('#card_holder').children('div:not([data-genre=' + genre + '])').hide();
                             $('#card_holder').children('div[data-genre=' + genre + ']').show();
                         }
-                        return false;
                     });
                     //lower nav
                     $('#lowerNavbar li a').click(function(){
@@ -247,8 +246,8 @@
                             $('#card_holder').children('div:not([data-genre=' + genre + '])').hide();
                             $('#card_holder').children('div[data-genre=' + genre + ']').show();
                         }
-                        return false;
                     });
+                    return false;
                 });
             </script>
         </body>

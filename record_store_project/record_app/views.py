@@ -90,7 +90,7 @@ def register(request):
             password = hashed_password
         )
         request.session['user_id'] = new_user.id
-        return redirect('/checkout')
+        return redirect('/')
     return redirect('/register_page')
 
 def add_product(request):
@@ -123,11 +123,11 @@ def checkout(request):
         return redirect ('/login_page')
     this_user = User.objects.get(id=request.session['user_id'])
     item_tally = this_user.shopping_cart.count()
-
+    item_ids = Order.objects.filter(ordered_by=this_user).values_list('contents')
+    
     context = {
         'item_tally': item_tally,
-        'order_list': Order.objects.all(),
-        'current_user': User.objects.get(id=request.session['user_id']),
+        'current_user': this_user,
     }
     if request.method == "POST":
         errors = ShippingAddress.objects.shipping_address_validator(request.POST)
@@ -140,14 +140,7 @@ def checkout(request):
             for key, value in errors.items():
                 messages.error(request, value)
             return redirect ('/checkout')
-        errors = Payment.objects.payment_validator(request.POST)
-        if len(errors) > 0:
-            for key, value in errors.items():
-                messages.error(request, value)
-            return redirect ('/checkout')
-        this_order = Order.objects.create(
-            quantity  = request.POST['quantity']
-        )
+        return redirect ('/confirmation')
     return render (request, 'checkout.html', context)
 
 def confirmation(request):

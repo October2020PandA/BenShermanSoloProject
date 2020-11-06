@@ -17,4 +17,4 @@ Ben Sherman:
 https://github.com/Redbeard29
 
 ## Demo
-
+![homepage gif](/Demo/homepage.gif)

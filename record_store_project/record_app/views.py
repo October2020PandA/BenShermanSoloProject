@@ -7,7 +7,8 @@ import bcrypt
 def index(request):
     if 'user_id' in request.session:
         this_user = User.objects.get(id=request.session['user_id'])
-        item_tally = this_user.shopping_cart.count()
+        this_order = Order.objects.get(id=request.session['order_id'])
+        item_tally = this_order.contents.count()
 
         context = {
             'item_tally' : item_tally,
@@ -21,7 +22,8 @@ def equipment(request):
 def records(request):
     if 'user_id' in request.session:
         this_user = User.objects.get(id=request.session['user_id'])
-        item_tally = this_user.shopping_cart.count()
+        this_order = Order.objects.get(id=request.session['order_id'])
+        item_tally = this_order.contents.count()
 
         context = {
             'item_tally' : item_tally,
@@ -34,29 +36,6 @@ def records(request):
         }
         return render (request, 'records.html', context)
 
-def item(request, product_id):
-    if 'user_id' in request.session:
-        this_product = Product.objects.get(id=product_id)
-        same_genre_list = Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
-        this_user = User.objects.get(id=request.session['user_id'])
-        item_tally = this_user.shopping_cart.count()
-        
-        context = {
-            'item_tally' : item_tally,
-            'product': Product.objects.get(id=product_id),
-            'similar_items': Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
-        }
-        return render (request, 'item.html', context)
-    else:
-        this_product = Product.objects.get(id=product_id)
-        same_genre_list = Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
-
-        context = {
-            'product': Product.objects.get(id=product_id),
-            'similar_items': Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
-        }
-        return render (request, 'item.html', context)
-        
 def login_page(request):
     return render(request, 'login_page.html')
 
@@ -102,32 +81,70 @@ def products(request):
     }
     return render (request, 'products_table.html', context)
 
+def item(request, product_id):
+    if 'user_id' in request.session:
+        this_product = Product.objects.get(id=product_id)
+        same_genre_list = Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
+        this_user = User.objects.get(id=request.session['user_id'])
+        this_order = Order.objects.get(id=request.session['order_id'])
+        item_tally = this_order.contents.count()
+        
+        context = {
+            'item_tally' : item_tally,
+            'product': Product.objects.get(id=product_id),
+            'similar_items': Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
+        }
+        return render (request, 'item.html', context)
+    else:
+        this_product = Product.objects.get(id=product_id)
+        same_genre_list = Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
+
+        context = {
+            'product': Product.objects.get(id=product_id),
+            'similar_items': Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
+        }
+        return render (request, 'item.html', context)
+        
+
 def add_to_cart(request, product_id):
     if 'user_id' not in request.session:
         return redirect('/login')
-    if request.method == "POST":
-        current_user = User.objects.get(id=request.session['user_id'])
-        current_product = Product.objects.get(id=product_id)
-        current_order = Order(
-            quantity  = request.POST['quantity'],
-            ordered_by = current_user,
-            ship_to = None,
-            charged_to = None
-        )
-        current_order.save()
-        current_order.contents.add(current_product)
-        return redirect(f'/item/{product_id}')
+    if 'order_id' in request.session:
+        if request.method == "POST":
+            current_user = User.objects.get(id=request.session['user_id'])
+            current_product = Product.objects.get(id=product_id)
+            current_order = Order.objects.get(id=request.session['order_id'])
+            current_order.contents.add(current_product)
+            return redirect(f'/item/{product_id}')
+    else:
+        if request.method == "POST":
+            current_user = User.objects.get(id=request.session['user_id'])
+            current_product = Product.objects.get(id=product_id)
+            current_order = Order.objects.create(
+                quantity  = request.POST['quantity'],
+                ordered_by = current_user,
+                ship_to = None,
+                charged_to = None,
+                is_complete= False,
+            )
+            current_order.save()
+            current_order.contents.add(current_product)
+            request.session['order_id'] = current_order.id
+            return redirect(f'/item/{product_id}')
 
 def checkout(request):
     if 'user_id' not in request.session:
         return redirect ('/login_page')
     this_user = User.objects.get(id=request.session['user_id'])
-    item_tally = this_user.shopping_cart.count()
-    item_ids = Order.objects.filter(ordered_by=this_user).values_list('contents')
+    this_order = Order.objects.get(id=request.session['order_id'])
+    item_tally = this_order.contents.count()
+    items = this_order.contents.all()
+    prices = items.values_list('price')
+    quantity = this_order.quantity
     
     context = {
         'item_tally': item_tally,
-        'current_user': this_user,
+        'current_order': this_order,
     }
     if request.method == "POST":
         errors = ShippingAddress.objects.shipping_address_validator(request.POST)

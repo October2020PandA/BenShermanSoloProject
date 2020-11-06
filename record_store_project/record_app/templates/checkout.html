@@ -61,15 +61,15 @@
                                     <h5 class="card-header d-inline-block pb-2">Shopping Cart</h5>
                                     <div class="card-body">
                                         <div class="row">
-                                            {% for item in current_user.shopping_cart.all %}
+                                            {% for item in current_order.contents.all %}
                                             <div id="item_info" class="col-md-8 col-7">
-                                                    <h5 class="card-title">{{ item.contents.first.title }}</h5>
-                                                    <p class="card-subititle mt-2 mb-3 text-muted">{{ item.contents.first.artist }}</p>
-                                                    <p class="card-text text-success">${{ item.contents.first.price }}</p>
+                                                    <h5 class="card-title">{{ item.title }}</h5>
+                                                    <p class="card-subititle mt-2 mb-3 text-muted">{{ item.artist }}</p>
+                                                    <p class="card-text text-success">${{ item.price }}</p>
                                                     <div class="row">
                                                         <div class="col-md-3 col-sm-5 col-6">
                                                             <select name="quantity" class="form-control mb-3 text-center">
-                                                                <option value="QTY">{{ item.quantity }}</option>
+                                                                <option value="QTY">{{ current_order.quantity }}</option>
                                                                 <option value="1">1</option>
                                                                 <option value="2">2</option>
                                                                 <option value="3">3</option>
@@ -88,7 +88,7 @@
                                                     <hr id="item_separator">
                                             </div>
                                             <div class="col-md-4 col-5">
-                                                <img src="{{ item.contents.first.album_art.url }}" alt="vinyl_pic" class="img-thumbnail mt-2 mb-5" id="checkout_image">
+                                                <img src="{{ item.album_art.url }}" alt="vinyl_pic" class="img-thumbnail mt-2 mb-5" id="checkout_image">
                                             </div>
                                             {% empty %}
                                             <div class="container p-5">

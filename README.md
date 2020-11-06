@@ -17,5 +17,7 @@ Ben Sherman:
 https://github.com/Redbeard29
 
 ## Demo
+### Homepage
 ![homepage gif](/Demo/homepage.gif)
+### Shopping Pages
 ![shopping gif](/Demo/shopping.gif)

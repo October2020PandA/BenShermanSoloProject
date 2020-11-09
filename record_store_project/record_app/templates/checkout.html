@@ -61,15 +61,15 @@
                                     <h5 class="card-header d-inline-block pb-2">Shopping Cart</h5>
                                     <div class="card-body">
                                         <div class="row">
-                                            {% for item in current_order.contents.all %}
+                                            {% for item in items %}
                                             <div id="item_info" class="col-md-8 col-7">
-                                                    <h5 class="card-title">{{ item.title }}</h5>
-                                                    <p class="card-subititle mt-2 mb-3 text-muted">{{ item.artist }}</p>
-                                                    <p class="card-text text-success">${{ item.price }}</p>
+                                                    <h5 class="card-title">{{ item.product.title }}</h5>
+                                                    <p class="card-subititle mt-2 mb-3 text-muted">{{ item.product.artist }}</p>
+                                                    <p class="card-text text-success">${{ item.product.price }}</p>
                                                     <div class="row">
                                                         <div class="col-md-3 col-sm-5 col-6">
                                                             <select name="quantity" class="form-control mb-3 text-center">
-                                                                <option value="QTY">{{ current_order.quantity }}</option>
+                                                                <option value="QTY">{{ item.quantity }}</option>
                                                                 <option value="1">1</option>
                                                                 <option value="2">2</option>
                                                                 <option value="3">3</option>
@@ -88,12 +88,13 @@
                                                     <hr id="item_separator">
                                             </div>
                                             <div class="col-md-4 col-5">
-                                                <img src="{{ item.album_art.url }}" alt="vinyl_pic" class="img-thumbnail mt-2 mb-5" id="checkout_image">
+                                                <img src="{{ item.product.album_art.url }}" alt="vinyl_pic" class="img-thumbnail mt-2 mb-5" id="checkout_image">
                                             </div>
                                             {% empty %}
-                                            <div class="container p-5">
+                                            <div class="container py-3 px-5">
                                                 <h2 class="text-center mb-4">Your shopping cart is currently empty!</h2>
-                                                <a href="/records" class="btn btn-primary d-block mt-3">Return to Shopping</a>
+                                                <a href="/records" class="btn btn-primary d-block mt-3">Shop Records</a>
+                                                <a href="/equipment" class="btn btn-primary d-block mt-3">Shop Equipment</a>
                                             </div>
                                             {% endfor %}
                                         </div>
@@ -163,8 +164,60 @@
                                 </div>
                                 <div class="col-2">
                                     <div class="form-group">
-                                        <label for="address2">State</label>
-                                        <input type="text" name="shipping_state" id="state" class="form-control" placeholder="State">
+                                        <label for="shippingState">State</label>
+                                        <select name="shippingState" class="form-control mb-3 text-center">
+                                            <option value="ST">State</option>
+                                            <option value="AL">AL</option>
+                                            <option value="AK">AK</option>
+                                            <option value="AZ">AZ</option>
+                                            <option value="AR">AR</option>
+                                            <option value="CA">CA</option>
+                                            <option value="CO">CO</option>
+                                            <option value="CT">CT</option>
+                                            <option value="DE">DE</option>
+                                            <option value="FL">FL</option>
+                                            <option value="GA">GA</option>
+                                            <option value="HI">HI</option>
+                                            <option value="ID">ID</option>
+                                            <option value="IL">IL</option>
+                                            <option value="IN">IN</option>
+                                            <option value="IA">IA</option>
+                                            <option value="KS">KS</option>
+                                            <option value="KY">KY</option>
+                                            <option value="LA">LA</option>
+                                            <option value="ME">ME</option>
+                                            <option value="MD">MD</option>
+                                            <option value="MA">MA</option>
+                                            <option value="MI">MI</option>
+                                            <option value="MN">MN</option>
+                                            <option value="MS">MS</option>
+                                            <option value="MO">MO</option>
+                                            <option value="MT">MT</option>
+                                            <option value="NE">NE</option>
+                                            <option value="NV">NV</option>
+                                            <option value="NH">NH</option>
+                                            <option value="NJ">NJ</option>
+                                            <option value="NM">NM</option>
+                                            <option value="NY">NY</option>
+                                            <option value="NC">NC</option>
+                                            <option value="ND">ND</option>
+                                            <option value="OH">OH</option>
+                                            <option value="OK">OK</option>
+                                            <option value="OR">OR</option>
+                                            <option value="PA">PA</option>
+                                            <option value="RI">RI</option>
+                                            <option value="SC">SC</option>
+                                            <option value="SD">SD</option>
+                                            <option value="TN">TN</option>
+                                            <option value="TX">TX</option>
+                                            <option value="UT">UT</option>
+                                            <option value="VT">VT</option>
+                                            <option value="VA">VA</option>
+                                            <option value="WA">WA</option>
+                                            <option value="WV">WV</option>
+                                            <option value="WI">WI</option>
+                                            <option value="WY">WY</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-4 mb-1">
@@ -221,8 +274,60 @@
                                 </div>
                                 <div class="col-2">
                                     <div class="form-group">
-                                        <label for="address2">State</label>
-                                        <input type="text" name="billing_state" id="billing_state" class="form-control" placeholder="State">
+                                        <label for="billingState">State</label>
+                                        <select name="billingState" class="form-control mb-3 text-center">
+                                            <option value="ST">State</option>
+                                            <option value="AL">AL</option>
+                                            <option value="AK">AK</option>
+                                            <option value="AZ">AZ</option>
+                                            <option value="AR">AR</option>
+                                            <option value="CA">CA</option>
+                                            <option value="CO">CO</option>
+                                            <option value="CT">CT</option>
+                                            <option value="DE">DE</option>
+                                            <option value="FL">FL</option>
+                                            <option value="GA">GA</option>
+                                            <option value="HI">HI</option>
+                                            <option value="ID">ID</option>
+                                            <option value="IL">IL</option>
+                                            <option value="IN">IN</option>
+                                            <option value="IA">IA</option>
+                                            <option value="KS">KS</option>
+                                            <option value="KY">KY</option>
+                                            <option value="LA">LA</option>
+                                            <option value="ME">ME</option>
+                                            <option value="MD">MD</option>
+                                            <option value="MA">MA</option>
+                                            <option value="MI">MI</option>
+                                            <option value="MN">MN</option>
+                                            <option value="MS">MS</option>
+                                            <option value="MO">MO</option>
+                                            <option value="MT">MT</option>
+                                            <option value="NE">NE</option>
+                                            <option value="NV">NV</option>
+                                            <option value="NH">NH</option>
+                                            <option value="NJ">NJ</option>
+                                            <option value="NM">NM</option>
+                                            <option value="NY">NY</option>
+                                            <option value="NC">NC</option>
+                                            <option value="ND">ND</option>
+                                            <option value="OH">OH</option>
+                                            <option value="OK">OK</option>
+                                            <option value="OR">OR</option>
+                                            <option value="PA">PA</option>
+                                            <option value="RI">RI</option>
+                                            <option value="SC">SC</option>
+                                            <option value="SD">SD</option>
+                                            <option value="TN">TN</option>
+                                            <option value="TX">TX</option>
+                                            <option value="UT">UT</option>
+                                            <option value="VT">VT</option>
+                                            <option value="VA">VA</option>
+                                            <option value="WA">WA</option>
+                                            <option value="WV">WV</option>
+                                            <option value="WI">WI</option>
+                                            <option value="WY">WY</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-4">
@@ -269,16 +374,16 @@
                             <hr>
                             <h4>Shipping Options</h4>
                             <div class="custom-control custom-radio">
-                                <input type="radio" name="shipMethod" class="custom-control-input" id="sameDay">
-                                <label for="sameDay" class="custom-control-label">Same Day Shipping</label>
+                                <input type="radio" name="shipMethod" class="custom-control-input" id="sameDayShipping">
+                                <label for="sameDayShipping" class="custom-control-label">Same Day Shipping</label>
                             </div>
                             <div class="custom-control custom-radio">
-                                <input type="radio" name="shipMethod" class="custom-control-input" id="nextDay">
-                                <label for="nextDay" class="custom-control-label">Next Day Shipping</label>
+                                <input type="radio" name="shipMethod" class="custom-control-input" id="nextDayShipping">
+                                <label for="nextDayShipping" class="custom-control-label">Next Day Shipping</label>
                             </div>
                             <div class="custom-control custom-radio">
-                                <input type="radio" name="shipMethod" class="custom-control-input" id="slowShip">
-                                <label for="slowShip" class="custom-control-label">3-5 Business Days</label>
+                                <input type="radio" name="shipMethod" class="custom-control-input" id="standardShipping">
+                                <label for="standardShipping" class="custom-control-label">3-5 Business Days</label>
                             </div>
                             <button class="btn btn-primary btn-lg btn-block my-3">Checkout</button>
                         </form>
@@ -288,9 +393,15 @@
                             <div class="card" id="checkout_forms">
                                 <h5 class="card-header">Order Summary</h5>
                                 <div class="card-body">
-                                    <p class="card-text">Item Subtotal:</p>
-                                    <p class="card-text">Shipping:</p>
-                                    <p class="card-text">Price Before Tax:</p>
+                                    <p class="card-text">Item Subtotal: ${{ order.get_cart_total }}</p>
+                                    <p class="card-text">Shipping:
+                                        <span id="sameDayShippingPrice" style="display: none;">$2.99</span>
+                                        <span id="nextDayShippingPrice" style="display: none;">$1.99</span>
+                                        <span id="standardShippingPrice" style="display: none;">$0.00</span>
+                                    </p>
+                                    <p class="card-text">Price Before Tax:
+                                        <span id="preTaxTotal" data-subtotal="{{ order.get_cart_total }}"></span>
+                                    </p>
                                     <p class="card-text">Tax:</p>
                                     <p class="card-text text-success">Total Price:</p>
                                 </div>
@@ -325,5 +436,31 @@
                     </li>
                 </ul>
             </div>
+            <script>
+                $(document).ready(function(){
+                    //shipping selects
+                    $("#sameDayShipping").click(function(){
+                        var subtotal = $(this).attr('data-subtotal')
+                        $("#sameDayShippingPrice").show();
+                        $("#nextDayShippingPrice").hide();
+                        $("#standardShippingPrice").hide();
+                        $("#preTaxTotal").add(function(){
+                            ("$" + (subtotal + 2.99));
+                        });
+                    });
+                    $("#nextDayShipping").click(function(){
+                        $("#sameDayShippingPrice").hide();
+                        $("#nextDayShippingPrice").show();
+                        $("#standardShippingPrice").hide();
+                        $("#preTaxTotal").show();
+                    });
+                    $("#standardShipping").click(function(){
+                        $("#sameDayShippingPrice").hide();
+                        $("#nextDayShippingPrice").hide();
+                        $("#standardShippingPrice").show();
+                        $("#preTaxTotal").show();
+                    });
+                });
+            </script>
         </body>
     </html>

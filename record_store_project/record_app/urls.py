@@ -20,7 +20,7 @@ urlpatterns =[
     path('checkout', views.checkout),
     path('orders', views.orders),
     path('products', views.products),
-    path('checkout/<int:order_id>/delete', views.delete),
+    path('checkout/<int:orderitem_id>/delete', views.delete),
     path('logout', views.logout),
     path('logout_page', views.logout_page),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

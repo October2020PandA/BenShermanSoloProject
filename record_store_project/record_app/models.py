@@ -84,11 +84,63 @@ class BillingAddressManager(models.Manager):
         return errors
 
 class BillingAddress(models.Model):
+    STATE_CHOICES = (
+        ("AL", "Alabama"),
+        ("AK", "Alaska"),
+        ("AZ", "Arizona"),
+        ("AR", "Arkansas"),
+        ("CA", "California"),
+        ("CO", "Colorado"),
+        ("CT", "Connecticut"),
+        ("DE", "Delaware"),
+        ("FL", "Florida"),
+        ("GA", "Georgia"),
+        ("HI", "Hawaii"),
+        ("ID", "Idaho"),
+        ("IL", "Illinois"),
+        ("IN", "Indiana"),
+        ("IA", "Iowa"),
+        ("KS", "Kansas"),
+        ("KY", "Kentucky"),
+        ("LA", "Louisiana"),
+        ("ME", "Maine"),
+        ("MD", "Maryland"),
+        ("MA", "Massachusetts"),
+        ("MI", "Michigan"),
+        ("MN", "Minnesota"),
+        ("MS", "Mississippi"),
+        ("MO", "Missouri"),
+        ("MT", "Montana"),
+        ("NE", "Nebraska"),
+        ("NV", "Nevada"),
+        ("NH", "New Hampshire"),
+        ("NJ", "New Jersey"),
+        ("NM", "New Mexico"),
+        ("NY", "New York"),
+        ("NC", "North Carolina"),
+        ("ND", "North Dakota"),
+        ("OH", "Ohio"),
+        ("OK", "Oklahoma"),
+        ("OR", "Oregon"),
+        ("PA", "Pennsylvania"),
+        ("RI", "Rhode Island"),
+        ("SC", "South Carolina"),
+        ("SD", "South Dakota"),
+        ("TN", "Tennessee"),
+        ("TX", "Texas"),
+        ("UT", "Utah"),
+        ("VT", "Vermont"),
+        ("VA", "Virginia"),
+        ("WA", "Washington"),
+        ("WV", "West Virginia"),
+        ("WI", "Wisconsin"),
+        ("WY", "Wyoming"),
+    )
     first_name = models.CharField(max_length=60)
     last_name = models.CharField(max_length=60)
     street_address = models.CharField(max_length=100)
     city = models.CharField(max_length=60)
-    state = models.CharField(max_length=2)
+    state = models.CharField(max_length=2, choices=STATE_CHOICES, default=None)
     zip_code = models.IntegerField()
     charge_to = models.ManyToManyField(User, related_name="billing_address")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -126,11 +178,63 @@ class ShippingAddressManager(models.Manager):
         return errors
 
 class ShippingAddress(models.Model):
+    STATE_CHOICES = (
+        ("AL", "Alabama"),
+        ("AK", "Alaska"),
+        ("AZ", "Arizona"),
+        ("AR", "Arkansas"),
+        ("CA", "California"),
+        ("CO", "Colorado"),
+        ("CT", "Connecticut"),
+        ("DE", "Delaware"),
+        ("FL", "Florida"),
+        ("GA", "Georgia"),
+        ("HI", "Hawaii"),
+        ("ID", "Idaho"),
+        ("IL", "Illinois"),
+        ("IN", "Indiana"),
+        ("IA", "Iowa"),
+        ("KS", "Kansas"),
+        ("KY", "Kentucky"),
+        ("LA", "Louisiana"),
+        ("ME", "Maine"),
+        ("MD", "Maryland"),
+        ("MA", "Massachusetts"),
+        ("MI", "Michigan"),
+        ("MN", "Minnesota"),
+        ("MS", "Mississippi"),
+        ("MO", "Missouri"),
+        ("MT", "Montana"),
+        ("NE", "Nebraska"),
+        ("NV", "Nevada"),
+        ("NH", "New Hampshire"),
+        ("NJ", "New Jersey"),
+        ("NM", "New Mexico"),
+        ("NY", "New York"),
+        ("NC", "North Carolina"),
+        ("ND", "North Dakota"),
+        ("OH", "Ohio"),
+        ("OK", "Oklahoma"),
+        ("OR", "Oregon"),
+        ("PA", "Pennsylvania"),
+        ("RI", "Rhode Island"),
+        ("SC", "South Carolina"),
+        ("SD", "South Dakota"),
+        ("TN", "Tennessee"),
+        ("TX", "Texas"),
+        ("UT", "Utah"),
+        ("VT", "Vermont"),
+        ("VA", "Virginia"),
+        ("WA", "Washington"),
+        ("WV", "West Virginia"),
+        ("WI", "Wisconsin"),
+        ("WY", "Wyoming"),
+    )
     first_name = models.CharField(max_length=60, default=None)
     last_name = models.CharField(max_length=60, default=None)
     street_address = models.CharField(max_length=100)
     city = models.CharField(max_length=60)
-    state = models.CharField(max_length=2)
+    state = models.CharField(max_length=2, choices=STATE_CHOICES, default=None)
     zip_code = models.IntegerField()
     phone_number = models.IntegerField(default=None, blank=True, null=True)
     delivery_instructions = models.TextField(default=None, blank=True, null=True)
@@ -220,9 +324,32 @@ class Payment(models.Model):
     objects = PaymentManager()
 
 class Order(models.Model):
-    quantity = models.CharField(max_length=2, default=1)
     is_complete = models.BooleanField(default=False)
     ordered_by = models.ForeignKey(User, related_name="shopping_cart", on_delete=models.CASCADE)
     ship_to = models.ForeignKey(ShippingAddress, related_name="location_of", on_delete=models.CASCADE, null=True)
     charged_to = models.ForeignKey(Payment, related_name="charged_by", on_delete=models.CASCADE, null=True)
-    contents = models.ManyToManyField(Product, related_name="order")
+
+    def __str__(self):
+        return str(self.id)
+
+    @property
+    def get_cart_total(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.get_total for item in orderitems])
+        return total
+        
+    @property
+    def get_cart_items(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.quantity for item in orderitems])
+        return total
+
+class OrderItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, null=True, blank=True)
+    quantity = models.IntegerField(default=0)
+
+    @property
+    def get_total(self):
+        total = self.product.price * self.quantity
+        return total

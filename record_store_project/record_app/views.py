@@ -5,33 +5,35 @@ import random
 import bcrypt
 
 def index(request):
-    if 'user_id' in request.session:
+    if 'order_id' in request.session:
         this_user = User.objects.get(id=request.session['user_id'])
-        this_order = Order.objects.get(id=request.session['order_id'])
-        item_tally = this_order.contents.count()
-
+        current_order = Order.objects.get(id=request.session['order_id'])
+        item_tally = current_order.orderitem_set.count()
         context = {
-            'item_tally' : item_tally,
+            'item_tally': item_tally,
         }
         return render (request, 'index.html', context)
     else:
-        return render (request, 'index.html')
+        context = {
+            'item_tally': 0,
+        }
+        return render (request, 'index.html', context)
 def equipment(request):
     return render (request, 'equipment.html')
 
 def records(request):
-    if 'user_id' in request.session:
+    if 'order_id' in request.session:
         this_user = User.objects.get(id=request.session['user_id'])
-        this_order = Order.objects.get(id=request.session['order_id'])
-        item_tally = this_order.contents.count()
-
+        current_order = Order.objects.get(id=request.session['order_id'])
+        item_tally = current_order.orderitem_set.count()
         context = {
-            'item_tally' : item_tally,
+            'item_tally': item_tally,
             'product_list' : Product.objects.order_by('artist'),
         }
         return render (request, 'records.html', context)
     else:
         context = {
+            'item_tally': 0,
             'product_list' : Product.objects.order_by('artist'),
         }
         return render (request, 'records.html', context)
@@ -82,15 +84,14 @@ def products(request):
     return render (request, 'products_table.html', context)
 
 def item(request, product_id):
-    if 'user_id' in request.session:
+    if 'order_id' in request.session:
         this_product = Product.objects.get(id=product_id)
         same_genre_list = Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
         this_user = User.objects.get(id=request.session['user_id'])
-        this_order = Order.objects.get(id=request.session['order_id'])
-        item_tally = this_order.contents.count()
-        
+        current_order = Order.objects.get(id=request.session['order_id'])
+        item_tally = current_order.orderitem_set.count()
         context = {
-            'item_tally' : item_tally,
+            'item_tally': item_tally,
             'product': Product.objects.get(id=product_id),
             'similar_items': Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
         }
@@ -98,8 +99,8 @@ def item(request, product_id):
     else:
         this_product = Product.objects.get(id=product_id)
         same_genre_list = Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
-
         context = {
+            'item_tally': 0,
             'product': Product.objects.get(id=product_id),
             'similar_items': Product.objects.filter(genre=this_product.genre).exclude(id=this_product.id)
         }
@@ -114,63 +115,75 @@ def add_to_cart(request, product_id):
             current_user = User.objects.get(id=request.session['user_id'])
             current_product = Product.objects.get(id=product_id)
             current_order = Order.objects.get(id=request.session['order_id'])
-            current_order.contents.add(current_product)
+            OrderItem.objects.create(
+                product = current_product,
+                order = current_order,
+                quantity = request.POST['quantity']
+            )
             return redirect(f'/item/{product_id}')
     else:
         if request.method == "POST":
             current_user = User.objects.get(id=request.session['user_id'])
             current_product = Product.objects.get(id=product_id)
             current_order = Order.objects.create(
-                quantity  = request.POST['quantity'],
                 ordered_by = current_user,
                 ship_to = None,
                 charged_to = None,
                 is_complete= False,
             )
-            current_order.save()
-            current_order.contents.add(current_product)
-            request.session['order_id'] = current_order.id
+            OrderItem.objects.create(
+                product = current_product,
+                order = current_order,
+                quantity = request.POST['quantity']
+            )
+            request.session['order_id'] = current_order.id 
             return redirect(f'/item/{product_id}')
 
 def checkout(request):
     if 'user_id' not in request.session:
         return redirect ('/login_page')
-    this_user = User.objects.get(id=request.session['user_id'])
-    this_order = Order.objects.get(id=request.session['order_id'])
-    item_tally = this_order.contents.count()
-    items = this_order.contents.all()
-    prices = items.values_list('price')
-    quantity = this_order.quantity
-    
-    context = {
-        'item_tally': item_tally,
-        'current_order': this_order,
-    }
-    if request.method == "POST":
-        errors = ShippingAddress.objects.shipping_address_validator(request.POST)
-        if len(errors) > 0:
-            for key, value in errors.items():
-                messages.error(request, value)
-            return redirect ('/checkout')
-        errors = BillingAddress.objects.billing_address_validator(request.POST)
-        if len(errors) > 0:
-            for key, value in errors.items():
-                messages.error(request, value)
-            return redirect ('/checkout')
-        return redirect ('/confirmation')
-    return render (request, 'checkout.html', context)
+    if 'order_id' in request.session:
+        this_user = User.objects.get(id=request.session['user_id'])
+        current_order = Order.objects.get(id=request.session['order_id'])
+        item_tally = current_order.orderitem_set.count()
+        items = current_order.orderitem_set.all() 
+        context = {
+            'item_tally' : item_tally,
+            'items': items,
+            'order': current_order,
+        }
+        if request.method == "POST":
+            errors = ShippingAddress.objects.shipping_address_validator(request.POST)
+            if len(errors) > 0:
+                for key, value in errors.items():
+                    messages.error(request, value)
+                return redirect ('/checkout')
+            errors = BillingAddress.objects.billing_address_validator(request.POST)
+            if len(errors) > 0:
+                for key, value in errors.items():
+                    messages.error(request, value)
+                return redirect ('/checkout')
+            return redirect ('/confirmation')
+        return render (request, 'checkout.html', context)
+    else:
+        this_user = User.objects.get(id=request.session['user_id'])
+        context = {
+            'item_tally' : 0,
+        }
+        return render (request, 'checkout.html', context)
 
 def confirmation(request):
     if 'user_id' not in request.session:
         return redirect ('/login_page')
+
     context = {
         'user': User.objects.get(id=request.session['user_id'])
     }
     return render (request, 'confirmation.html', context)
 
-def delete(request, order_id):
-    this_order = Order.objects.get(id=order_id)
-    this_order.delete()
+def delete(request, orderitem_id):
+    this_orderitem = OrderItem.objects.get(id=orderitem_id)
+    this_orderitem.delete()
     return redirect('/checkout')
 
     

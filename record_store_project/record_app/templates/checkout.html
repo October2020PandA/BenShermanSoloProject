@@ -121,11 +121,15 @@
                             <div class="card" id="checkout_forms">
                                 <h5 class="card-header">Order Summary</h5>
                                 <div class="card-body">
-                                    <p class="card-text">Item Subtotal:</p>
-                                    <p class="card-text">Shipping:</p>
-                                    <p class="card-text">Price Before Tax:</p>
-                                    <p class="card-text">Tax:</p>
-                                    <p class="card-text text-success">Total Price:</p>
+                                    <p class="card-text">Item Subtotal: ${{ order.get_cart_total }}</p>
+                                    <p class="card-text">Shipping:
+                                    </p>
+                                    <p class="card-text">Price Before Tax:
+                                    </p>
+                                    <p class="card-text">Tax:
+                                    </p>
+                                    <p class="card-text text-success">Total Price:
+                                    </p>
                                 </div>
                                 <div class="card-footer">
                                     <a href="#checkout_info" class="btn btn-primary d-block">Contine to Checkout</a>
@@ -141,13 +145,13 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="first_name">First Name</label>
-                                        <input type="text" name="shipping_first_name" id="first_name" class="form-control" placeholder="First Name">
+                                        <input type="text" name="shipping_first_name" id="shipping_first_name" class="form-control" placeholder="First Name">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="last_name">Last Name</label>
-                                        <input type="text" name="shipping_last_name" id="last_name" class="form-control" placeholder="Last Name">
+                                        <input type="text" name="shipping_last_name" id="shipping_last_name" class="form-control" placeholder="Last Name">
                                     </div>
                                 </div>
                             </div>
@@ -165,7 +169,7 @@
                                 <div class="col-2">
                                     <div class="form-group">
                                         <label for="shippingState">State</label>
-                                        <select name="shippingState" class="form-control mb-3 text-center">
+                                        <select name="shippingState" class="form-control mb-3 text-center" id="shippingStateSelect">
                                             <option value="ST">State</option>
                                             <option value="AL">AL</option>
                                             <option value="AK">AK</option>
@@ -251,13 +255,13 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="first_name">First Name</label>
-                                        <input type="text" name="billing_first_name" id="first_name" class="form-control" placeholder="First Name">
+                                        <input type="text" name="billing_first_name" id="billing_first_name" class="form-control" placeholder="First Name">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="last_name">Last Name</label>
-                                        <input type="text" name="billing_last_name" id="last_name" class="form-control" placeholder="Last Name">
+                                        <input type="text" name="billing_last_name" id="billing_last_name" class="form-control" placeholder="Last Name">
                                     </div>
                                 </div>
                             </div>
@@ -343,13 +347,13 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="first_name">First Name</label>
-                                        <input type="text" name="payment_first_name" id="first_name" class="form-control" placeholder="First Name">
+                                        <input type="text" name="payment_first_name" id="payment_first_name" class="form-control" placeholder="First Name">
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
                                         <label for="last_name">Last Name</label>
-                                        <input type="text" name="payment_last_name" id="last_name" class="form-control" placeholder="Last Name">
+                                        <input type="text" name="payment_last_name" id="payment_last_name" class="form-control" placeholder="Last Name">
                                     </div>
                                 </div>
                             </div>
@@ -395,15 +399,19 @@
                                 <div class="card-body">
                                     <p class="card-text">Item Subtotal: ${{ order.get_cart_total }}</p>
                                     <p class="card-text">Shipping:
-                                        <span id="sameDayShippingPrice" style="display: none;">$2.99</span>
-                                        <span id="nextDayShippingPrice" style="display: none;">$1.99</span>
-                                        <span id="standardShippingPrice" style="display: none;">$0.00</span>
+                                        <span class="shippingChoice" id="sameDayShippingPrice" style="display: none;">$2.99</span>
+                                        <span class="shippingChoice" id="nextDayShippingPrice" style="display: none;">$1.99</span>
+                                        <span class="shippingChoice" id="standardShippingPrice" style="display: none;">$0.00</span>
                                     </p>
                                     <p class="card-text">Price Before Tax:
                                         <span id="preTaxTotal" data-subtotal="{{ order.get_cart_total }}"></span>
                                     </p>
-                                    <p class="card-text">Tax:</p>
-                                    <p class="card-text text-success">Total Price:</p>
+                                    <p class="card-text">Tax:
+                                        <span id="tax"></span>
+                                    </p>
+                                    <p class="card-text text-success">Total Price:
+                                        <span id="totalPrice"></span>
+                                    </p>
                                 </div>
                                 <div class="card-footer">
                                     <a href="#checkout_info" class="btn btn-primary d-block">Contine to Checkout</a>
@@ -439,26 +447,34 @@
             <script>
                 $(document).ready(function(){
                     //shipping selects
+                    var taxRate = (Math.random() * (0.08)).toFixed(2);
+                    var tax = (parseInt($("#preTaxTotal").attr('data-subtotal')) * taxRate).toFixed(2);
                     $("#sameDayShipping").click(function(){
-                        var subtotal = $(this).attr('data-subtotal')
+                        var subtotal = (parseInt($("#preTaxTotal").attr('data-subtotal')) + 2.99);
                         $("#sameDayShippingPrice").show();
                         $("#nextDayShippingPrice").hide();
                         $("#standardShippingPrice").hide();
-                        $("#preTaxTotal").add(function(){
-                            ("$" + (subtotal + 2.99));
-                        });
+                        $("#preTaxTotal").html("$" + subtotal);
+                        $("#totalPrice").html("$" + (parseInt($("#preTaxTotal").attr('data-subtotal')) + (parseFloat(tax)) + 2.99));
                     });
                     $("#nextDayShipping").click(function(){
+                        var subtotal = (parseInt($("#preTaxTotal").attr('data-subtotal')) + 1.99);
                         $("#sameDayShippingPrice").hide();
                         $("#nextDayShippingPrice").show();
                         $("#standardShippingPrice").hide();
-                        $("#preTaxTotal").show();
+                        $("#preTaxTotal").html("$" + subtotal);
+                        $("#totalPrice").html("$" + (parseInt($("#preTaxTotal").attr('data-subtotal')) + (parseFloat(tax)) + 1.99));
                     });
                     $("#standardShipping").click(function(){
+                        var subtotal = (parseInt($("#preTaxTotal").attr('data-subtotal')));
                         $("#sameDayShippingPrice").hide();
                         $("#nextDayShippingPrice").hide();
                         $("#standardShippingPrice").show();
-                        $("#preTaxTotal").show();
+                        $("#preTaxTotal").html("$" + subtotal.toFixed(2));
+                        $("#totalPrice").html("$" + (parseInt($("#preTaxTotal").attr('data-subtotal')) + (parseFloat(tax))));
+                    });
+                    $("#shippingStateSelect").change(function(){
+                        $("#tax").html("$" + tax);
                     });
                 });
             </script>

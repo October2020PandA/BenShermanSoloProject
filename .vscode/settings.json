@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/Users/benjaminsherman/Desktop/Documents/CodingDojo/Python/MyEnvironments/djangoPy3Env/bin/python"
+    "python.pythonPath": "/Users/benjaminsherman/Desktop/Documents/CodingDojo/Python/MyEnvironments/djangoPy3Env/bin/python",
+    "liveServer.settings.port": 5501
 }

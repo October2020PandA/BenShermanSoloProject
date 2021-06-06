@@ -3,6 +3,7 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Checkout</title>
             {% load static %}
             {% load bootstrap4 %}
             {% bootstrap_javascript jquery='full' %}
@@ -10,7 +11,7 @@
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
             <link href="https://fonts.googleapis.com/css?family=Raleway:100,300,500,700" rel="stylesheet">
             <link href="https://fonts.googleapis.com/css?family=Questrial" rel="stylesheet">
-            <title>Checkout</title>
+            <script src="{% static 'js/script.js' %}"></script>
         </head>
         <body>
             <nav class="navbar navbar-expand-md navbar-dark bg-dark py-3">
@@ -444,39 +445,5 @@
                     </li>
                 </ul>
             </div>
-            <script>
-                $(document).ready(function(){
-                    //shipping selects
-                    var taxRate = (Math.random() * (0.08)).toFixed(2);
-                    var tax = (parseInt($("#preTaxTotal").attr('data-subtotal')) * taxRate).toFixed(2);
-                    $("#sameDayShipping").click(function(){
-                        var subtotal = (parseInt($("#preTaxTotal").attr('data-subtotal')) + 2.99);
-                        $("#sameDayShippingPrice").show();
-                        $("#nextDayShippingPrice").hide();
-                        $("#standardShippingPrice").hide();
-                        $("#preTaxTotal").html("$" + subtotal);
-                        $("#totalPrice").html("$" + (parseInt($("#preTaxTotal").attr('data-subtotal')) + (parseFloat(tax)) + 2.99));
-                    });
-                    $("#nextDayShipping").click(function(){
-                        var subtotal = (parseInt($("#preTaxTotal").attr('data-subtotal')) + 1.99);
-                        $("#sameDayShippingPrice").hide();
-                        $("#nextDayShippingPrice").show();
-                        $("#standardShippingPrice").hide();
-                        $("#preTaxTotal").html("$" + subtotal);
-                        $("#totalPrice").html("$" + (parseInt($("#preTaxTotal").attr('data-subtotal')) + (parseFloat(tax)) + 1.99));
-                    });
-                    $("#standardShipping").click(function(){
-                        var subtotal = (parseInt($("#preTaxTotal").attr('data-subtotal')));
-                        $("#sameDayShippingPrice").hide();
-                        $("#nextDayShippingPrice").hide();
-                        $("#standardShippingPrice").show();
-                        $("#preTaxTotal").html("$" + subtotal.toFixed(2));
-                        $("#totalPrice").html("$" + (parseInt($("#preTaxTotal").attr('data-subtotal')) + (parseFloat(tax))));
-                    });
-                    $("#shippingStateSelect").change(function(){
-                        $("#tax").html("$" + tax);
-                    });
-                });
-            </script>
         </body>
     </html>
